@@ -1,0 +1,22 @@
+version: '2'
+services:
+  mysql:
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+     MYSQL_ROOT_PASSWORD: redepp
+     MYSQL_USER: root
+     MYSQL_PASSWORD: redepp
+  app:
+     image: rails_dev
+     command: bash -c "bundle install && rake db:create && rake db:migrate && rails server -b 0.0.0.0"
+     volumes:
+          - /v01/Workspace/rails/BackOfficeMedParc:/app
+     ports:
+          - "3000:3000"
+     tty  : true
+     links:
+          - mysql
+     depends_on:
+          - mysql
